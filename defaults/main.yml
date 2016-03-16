@@ -1,0 +1,5 @@
+---
+# defaults file for spnx-cln
+spnx_client_url: "http://spnx.ru/dl/spnxclient_1.0.56.1-0_all.deb"
+jre_url: "http://download.oracle.com/otn-pub/java/jdk/8u74-b02/jre-8u74-linux-i586.tar.gz"
+

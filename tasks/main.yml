@@ -1,0 +1,28 @@
+---
+# tasks file for spnx-cln
+- name: Check JAVA home
+  stat: path=/opt/jre1.8.0_74
+  register: java_home
+
+- name: Download Oracle JRE
+  get_url:
+    url={{ jre_url }}
+    dest=/var/local
+    headers='Cookie:gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie'
+  when: java_home.stat.exists == False
+
+- name: Setup Oracle JAVA
+  shell: "tar -xf /var/local/jre-8u74-linux-i586.tar.gz -C /opt/"
+  when: java_home.stat.exists == False
+
+- name: Link JAVA executables
+  file: src=/opt/jre1.8.0_74/bin/{{ item }} dest=/usr/local/bin/{{ item }} state=link
+  with_items:
+  - "java"
+
+- name: Copy Sphinx client
+  get_url: url={{ spnx_client_url }} dest=/var/local
+
+- name: Install Sphinx client
+  apt: deb="/var/local/spnxclient_1.0.56.1-0_all.deb"
+
